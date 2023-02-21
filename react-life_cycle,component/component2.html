@@ -1,0 +1,24 @@
+Class
+<script type="text/javascript">
+    class Person {
+        constructor() {
+            this.name = "baek"
+            this.age = 30
+        }
+        hello() {}
+        go() {
+            this.hello()
+        }
+    }
+    class Student extends Person {
+        constructor() {
+            super()
+            this.class = "블록체인 8기"
+        }
+        hello() {
+            console.log("아...!")
+        }
+    }
+    const student = new Student()
+    student.go() // student 에서 부터 실행헀기 때문에 this는 student의 hello를 사용한다.
+</script>

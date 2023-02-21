@@ -1,0 +1,67 @@
+Component
+<div id="root"></div>
+<script type="text/javascript">
+    class Component {
+        props
+        state
+
+        constructor(_props) {
+            this.props = _props
+        }
+
+        componentDidMount() {}
+        componentDidUpdate() {}
+
+        render() {}
+        template() {
+            this.componentDidMount()
+            this.props.innerHTML = this.render()
+        }
+        setState(newState) {
+            if (this.state === newState) return
+            this.state = { ...this.state, ...newState }
+            this.render()
+            this.componentDidUpdate()
+        }
+    }
+
+    class LoginBtn extends Component {
+        constructor(props) {
+            super(props) // 부모클래스를 인스턴스화
+            this.state = {
+                isLogin: false,
+            }
+        }
+
+        componentDidMount() {
+            console.log("최초 실행됨")
+            //axios 처리를 해서 사용할 수 있다.
+            this.setState({ isLogin: true })
+        }
+
+        componentDidUpdate() {
+            console.log("상태가 바뀜")
+        }
+
+        render() {
+            return `<button > ${this.state.isLogin ? "logout" : "login"} </button>`
+        }
+    }
+
+    class VirtualDOM {
+        static createRoot(Props) {
+            return {
+                props: Props,
+                render(Component) {
+                    new Component(this.props).template()
+                },
+            }
+        }
+    }
+
+    const root = VirtualDOM.createRoot(document.querySelector("#root"))
+    root.render(LoginBtn)
+    console.log(root)
+</script>
+
+생명주기

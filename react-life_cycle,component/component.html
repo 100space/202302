@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    class Component {
+        props
+        state
+
+        constructor(_target) {
+            this.taget = _taget
+            this.setup()
+            this.render()
+        }
+        setup() {}
+        render() {}
+        template() {
+            this.taget.innerHTML = this.render()
+        }
+        setState(newState) {
+            if (this.state === newState) return
+            this.state = { ...this.state, ...newState }
+            this.template()
+        }
+    }
+    class LoginBtn extends Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                isLogin: false,
+            }
+        }
+        render() {
+            return `<button>${this.state.isLogin ? "logout" : "login"} </button>`
+        }
+    }
+</script>
+<div id="root"></div>
+<script type="text/javascript">
+    const root = new LoginBtn(document.querySelector("#root"))
+    root.render()
+</script>
+
+생명주기

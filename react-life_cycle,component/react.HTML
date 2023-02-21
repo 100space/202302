@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    <body>
+        <!-- root 엘리먼트에서 react를 관리하기 시작함. -->
+        <div id="root"></div>
+        <script type="text/babel">
+            // React
+            // RedatDOM
+            // ReactDOM .. 가상 DOM .. 최초에 조작할 엘리먼트를 선택함.
+
+            // Component
+            class LoginBtn extends React.Component {
+                constructor(props) {
+                    // 컴포넌트가 실행될때 인자값에 대하여 실행되는 것이 다르게 하고 싶을 때 사용하는 것이 props
+                    super(props)
+                    // 상태가 바뀌면 컴포넌트가 바뀐다. // 데이터가 바뀌면 화면이 바뀐다.
+                    console.log("constructor")
+                    this.state = {
+                        isLogin: false,
+                    }
+                }
+
+                render() {
+                    return (
+                        <button
+                            onClick={() => {
+                                this.setState({ isLogin: !this.state.isLogin })
+                            }}
+                        >
+                            {this.state.isLogin ? "Logout" : "Login"}
+                        </button>
+                    ) // 바벨을 이용하여 엘리먼트를 바꾸면
+                    //React.createElement("button", null, "login") 으로 바꿔준다.
+                }
+            }
+            const root = ReactDOM.createRoot(document.querySelector("#root")) // object
+            root.render(<LoginBtn />) // render(children) // children 에 엘리먼트를(컴포넌트를) 받는다.
+
+            // root.render(React.createElement(LoginBtn , {id="1"}, "g하이하이")
+            // root.render(<LoginBtn i="1"> 인자값</LoginBtn>)
+        </script>
+    </body>
+</html>
