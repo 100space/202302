@@ -24,50 +24,7 @@
                     )
                 }
             }
-            class CommentForm extends React.Component {
-                constructor(props) {
-                    super(props)
-                    console.log(this.props.create)
-                    this.submitHandler = this.submitHandler.bind(this)
-                    this.changeHandler = this.changeHandler.bind(this)
-                    this.state = {
-                        value: "",
-                    }
-                }
-
-                changeHandler(e) {
-                    const { value } = e.target
-                    this.setState({
-                        ...this.state,
-                        value,
-                    })
-                }
-
-                submitHandler(e) {
-                    e.preventDefault()
-                    this.props.create(this.state.value)
-                    // this.state.reset()
-                    // e.target.commentInput.focus()
-                    this.setState({ value: "" })
-                }
-                render() {
-                    return (
-                        <li className="comment-form">
-                            <form onSubmit={this.submitHandler}>
-                                <h4>
-                                    댓글 쓰기 <span>({this.props.length})</span>
-                                </h4>
-                                <span className="ps_box">
-                                    <input type="text" onChange={this.changeHandler} className="int" value={this.state.value} placeholder="댓글 내용을 입력해주세요." />
-                                </span>
-                                <input type="submit" value="등록" className="btn" />
-                            </form>
-                        </li>
-                    )
-                }
-            }
             class CommentList extends React.Component {
-                //this.props.items-> Array
                 loop(v, k) {
                     return <CommentItem key={k} userid="baekspace" content={v.content} date="2023-02-22" />
                 }
@@ -75,48 +32,82 @@
                     return <li>{this.props.items.map(this.loop)}</li>
                 }
             }
+            class CommentForm extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.submitHandler = this.submitHandler.bind(this)
+                    this.changeHandler = this.changeHandler.bind(this)
+                    this.state = {
+                        value: "",
+                    }
+                }
+                changeHandler(e) {
+                    const { value } = e.target
+                    this.setState({
+                        ...this.state,
+                        value,
+                    })
+                }
+                submitHandler(e) {
+                    e.preventDefault()
+                    this.props.create(this.state.value)
+                    this.setState({ value: "" })
+                }
+                render() {
+                    return (
+                        <li className="comment-form">
+                            <form onSubmit={this.submitHandler}>
+                                <h4>
+                                    댓글 쓰기<span>({this.props.length})</span>
+                                </h4>
+                                <span className="ps_box">
+                                    <input type="text" onChange={this.changeHandler} className="int" value={this.state.value} placeholder="댓글을 입력해주세요" />
+                                </span>
+                                <input type="submit" value="등록" className="btn" />
+                            </form>
+                        </li>
+                    )
+                }
+            }
             class Comment extends React.Component {
                 constructor(props) {
                     super(props)
+                    console.log(props)
                     this.state = {
-                        //[{userid:"aa", content:"", date:""},{userid:"bb", content:"", date:""},...]
                         comment: [
                             {
                                 userid: "baekspace",
-                                content: "안녕하세요 댓글1",
+                                content: "1번 째 댓글",
                                 date: "2023-02-22",
                             },
                             {
                                 userid: "baekspace",
-                                content: "안녕하세요 댓글2",
+                                content: "2번 째 댓글",
                                 date: "2023-02-22",
                             },
                             {
                                 userid: "baekspace",
-                                content: "안녕하세요 댓글3",
+                                content: "3번 째 댓글",
                                 date: "2023-02-22",
                             },
                         ],
                     }
                     this.create = this.create.bind(this)
                 }
-
                 create(content) {
                     this.setState({
                         comment: [
                             {
                                 userid: "baekspace",
-                                content: content,
+                                content,
                                 date: "2023-02-22",
                             },
                             ...this.state.comment,
                         ],
                     })
                 }
-
                 render() {
                     return (
-                        // 자바스크립트이기 때문에 자바스크립트에서 class라는 예약어가 이미 있기 때문에 바벨로 변환하는 과정에서 헷갈릴 수 있어서 className이라고 적어야한다.
                         <ul className="comment">
                             <CommentForm create={this.create} length={this.state.comment.length} />
                             <CommentList items={this.state.comment} />
@@ -128,7 +119,7 @@
                 render() {
                     return (
                         <div>
-                            <Comment />
+                            <Comment id="1"> asdfdsf</Comment>
                         </div>
                     )
                 }
