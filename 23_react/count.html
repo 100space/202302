@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <title>Document</title>
+        <style>
+            h1 {
+                text-align: center;
+            }
+            .counter {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                width: 150px;
+                margin: 0 auto;
+            }
+            h2 {
+                text-align: center;
+            }
+            button {
+                width: 50px;
+                height: 30px;
+                margin: 0 10px;
+                font-size: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>카운터 만들기</h1>
+        <div id="root"></div>
+        <script type="text/babel">
+            class Button extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <button onClick={this.props.setLoading}>+</button>
+                            <button onClick={this.props.setLoading}>-</button>
+                        </div>
+                    )
+                }
+            }
+            class Count extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        number: 0,
+                        loading: true,
+                    }
+                }
+                componentDidMount() {
+                    setTimeout(() => {
+                        this.setState({ number: 10, loading: false })
+                    }, 1000)
+                }
+                componentDidUpdate() {
+                    if (this.state.loading === true) {
+                        setTimeout(() => {
+                            this.setState({ loading: false })
+                        }, 1000)
+                    }
+                }
+
+                setLoading = (e) => {
+                    this.state.loading = true
+                    if (e.target.innerHTML === "+") {
+                        this.increment()
+                    } else {
+                        this.decrement()
+                    }
+                }
+
+                increment = () => {
+                    this.setState({ number: this.state.number + 1 })
+                }
+                decrement = () => {
+                    this.setState({ number: this.state.number - 1 })
+                }
+                render() {
+                    if (this.state.loading) return <h1>로딩중..</h1>
+                    return (
+                        <div className="counter">
+                            <h2>{this.state.number}</h2>
+                            <div className="counterBtn">
+                                <button onClick={this.increment}> + </button>
+                                <button onClick={this.decrement}> - </button>
+                                <br />
+                                <br />
+                                Loadding
+                                <br />
+                                <br />
+                                <Button setLoading={this.setLoading} />
+                            </div>
+                        </div>
+                    )
+                }
+            }
+            class App extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <Count />
+                        </div>
+                    )
+                }
+            }
+            const root = ReactDOM.createRoot(document.querySelector("#root"))
+            root.render(<App />)
+        </script>
+    </body>
+</html>

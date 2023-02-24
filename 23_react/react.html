@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            class C extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return <div>Props: {this.props.text}</div>
+                }
+            }
+            class B extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <C text={this.props.id} />
+                        </div>
+                    )
+                }
+            }
+            class A extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <B id={this.props.name} />
+                        </div>
+                    )
+                }
+            }
+            class Props extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <A name="Baekspace" />
+                        </div>
+                    )
+                }
+            }
+            class Form extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        value: "",
+                        word: "",
+                    }
+                    this.handleChange = this.handleChange.bind(this)
+                    this.handleSubmit = this.handleSubmit.bind(this)
+                }
+
+                handleChange(e) {
+                    this.setState({ value: e.target.value })
+                    console.log(e.target.value)
+                }
+
+                handleSubmit(e) {
+                    e.preventDefault()
+                    this.setState({
+                        word: this.state.value,
+                        value: "",
+                    })
+                }
+
+                render() {
+                    return (
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" onChange={this.handleChange} value={this.state.value} />
+                            <button type="submit">전송</button>
+                            <div>{this.state.word}</div>
+                        </form>
+                    )
+                }
+            }
+            class List extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        board: [
+                            { id: 1, subject: "baekspace1" },
+                            { id: 2, subject: "baekspace2" },
+                            { id: 3, subject: "baekspace3" },
+                            { id: 4, subject: "baekspace4" },
+                        ],
+                        //map 함수를 이용해서 console.log을 찍을 수 있는가
+                        //[<li>a:10</li>,<li>a:20</li>]
+                        arr: [{ a: 10 }, { a: 20 }],
+                    }
+                }
+                getList(board) {
+                    return this.state.board.map((v) => <li key={v.id}>{v.subject}</li>)
+                }
+                getList2(arr) {
+                    return this.state.arr.map((v) => <li>a:{v.a}</li>)
+                }
+
+                render() {
+                    return (
+                        <ul>
+                            {this.getList(this.state.board)} {this.getList2(this.state.arr)}
+                        </ul>
+                    )
+                }
+            }
+            class Counter extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        number: 0,
+                        Loadding: true,
+                    }
+                    this.increment = this.increment.bind(this)
+                    this.decrement3 = this.decrement3.bind(this)
+                    this.setLoadding = this.setLoadding.bind(this)
+                }
+
+                componentDidMount() {
+                    setTimeout(() => {
+                        this.setState({ number: 10, Loadding: false })
+                    }, 1000)
+                }
+
+                //setState 가 될 때마다 실행
+                componentDidUpdate() {
+                    console.log(this.state.number)
+                    if (this.state.Loadding === true) {
+                        setTimeout(this.increment, 1000)
+                    }
+                }
+
+                setLoadding(e) {
+                    console.log(e.target.innerHTML)
+                    this.setState({ Loadding: true })
+                }
+                increment() {
+                    this.setState({
+                        number: this.state.number + 1,
+                        Loadding: false,
+                    })
+                }
+                decrement = () => {
+                    this.setState({
+                        number: this.state.number - 1,
+                    })
+                }
+                decrement2() {
+                    this.setState({
+                        number: this.state.number - 1,
+                    })
+                }
+                decrement3() {
+                    this.setState({ number: this.state.number - 1 })
+                }
+                render() {
+                    if (this.state.Loadding) return <div>로딩!!!!!!!!!</div>
+                    return (
+                        <div>
+                            <h2>{this.state.number}</h2>
+                            <button onClick={this.increment}>+</button>
+                            <button onClick={this.decrement}>-</button>
+                            <button onClick={() => this.decrement2()}>-</button>
+                            <button onClick={this.decrement3}>-</button>
+                            <br />
+                            <br />
+                            Loadding
+                            <br />
+                            <button onClick={this.setLoadding}>+</button>
+                            <button onClick={this.setLoadding}>-</button>
+                        </div>
+                    )
+                }
+            }
+            class App extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <Counter id="10" />
+                            <br />
+                            <br />
+                            <Form />
+                            <br />
+                            <br />
+                            <List />
+                            <br />
+                            <br />
+                            <Props />
+                        </div>
+                    )
+                }
+            }
+            const root = ReactDOM.createRoot(document.querySelector("#root"))
+            root.render(<App />)
+        </script>
+    </body>
+</html>

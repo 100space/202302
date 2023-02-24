@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            class List extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        board: [
+                            { id: 1, subject: "baekspace1" },
+                            { id: 2, subject: "baekspace2" },
+                            { id: 3, subject: "baekspace3" },
+                            { id: 4, subject: "baekspace4" },
+                        ],
+                    }
+                }
+
+                getList(board) {
+                    return this.state.board.map((v) => <li key={v.id}>{v.subject}</li>)
+                }
+
+                render() {
+                    return <ul>{this.getList(this.state.board)}</ul>
+                }
+            }
+            class App extends React.Component {
+                constructor(props) {
+                    super(props)
+                }
+                render() {
+                    return (
+                        <div>
+                            <List />
+                        </div>
+                    )
+                }
+            }
+            const root = ReactDOM.createRoot(document.querySelector("#root"))
+            root.render(<App />)
+        </script>
+    </body>
+</html>
